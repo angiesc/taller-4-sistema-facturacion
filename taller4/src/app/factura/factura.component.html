@@ -1,1 +1,66 @@
-<h1>factura</h1>
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="nomfact">Nombre Cliente</label>
+      <input (change)="validarFormFact()" type="text" id="nomfact" class="form-control" placeholder="Ingrese el nombre del producto" aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="cliente">
+    </div> 
+    <div class="form-group col-md-6">
+      <label for="fechafact">fecha</label>
+      <input  (change)="validarFormFact()" type="date" id="fechafact" class="form-control" placeholder="Ingrese el nombre del producto" aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="fecha">
+    </div>   
+    <div class="input-group-append">
+      <button [disabled]="desabilitadoBtnFact" class="btn btn-success" type="button" (click)="crearFactura()">Crear factura</button>
+    </div>
+  </div>
+  
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="producto">ID FACTURA</th>
+        <th scope="col" class="producto">NOMBRE CLIENTE</th>
+        <th scope="col" class="producto">FECHA</th>
+        <th scope="col" class="producto"></th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr *ngFor="let factura of facturas"class="table-light">
+        <th scope="row"class="producto">{{factura.id}}</th>
+        <th scope="row"class="producto">{{factura.cliente}}</th>
+        <th scope="row"class="producto">{{factura.fecha}}</th>
+        <th scope="row">  
+          <div class="d-flex justify-content-around">
+            <button *ngIf="factura.items.length!=0"class="btn btn-primary" >ver item</button><button class="btn btn-warning" type="button" (click)="openAgregarItem(factura.id,mimodal)">Agregar item</button>
+          </div>
+        </th>
+      </tr> 
+    </tbody>
+  </table>
+  
+  <p *ngIf="sinFactura" class="producto">No hay facturas registradas</p>
+  
+  
+  <ng-template #mimodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Agregar Items a la factura N°{{idFact}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Nombre Item</label>
+        <input (change)="validarFormItem()" type="text" class="form-control" id="formGroupExampleInput" placeholder="Agregar nombre item"[(ngModel)]="nombre">
+      </div>
+  
+      <div class="form-group">
+        <label for="formGroupExampleInput2">Precio Item</label>
+        <input (change)="validarFormItem()" type="number" class="form-control" id="formGroupExampleInput2" placeholder="Agrege precio item"[(ngModel)]="precio">
+      </div>
+    </div>
+  
+    <div class="modal-footer">
+      <button [disabled]="desabilitadoBtnItem" type="button" class="btn btn-success" (click)="modal.close('Save click');agregarItem(idFact)">Agregar</button>
+    </div>
+  </ng-template>
+  
