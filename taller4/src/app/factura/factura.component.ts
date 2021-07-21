@@ -78,7 +78,23 @@ export class FacturaComponent implements OnInit {
       console.log("An error occurred on openAgregarItem=>",e)
     }
   }
-  
+  verItem(idFact:number,content: any){
+    try{
+      
+      var buscarFactura=this.facturas.find(facturita=>facturita.id==idFact)
+      if(buscarFactura==undefined){
+        alert("el id de factura no existe")
+      }
+      else{
+        this.items=buscarFactura.items;
+        this.modalService.open(content)
+      }
+     console.log(this.items)
+    }
+    catch(e){
+      console.log("An error occurred on verItem=>",e)
+    }
+  }
 
 ///----------funcion agregar items a un factura------------------------
   agregarItem(idFact:number){
